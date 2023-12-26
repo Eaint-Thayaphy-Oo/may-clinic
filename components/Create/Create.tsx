@@ -12,6 +12,7 @@ export default function Create() {
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState("");
   const [township, setTownship] = useState("");
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
@@ -40,6 +41,7 @@ export default function Create() {
         console.log(err.message);
       });
   };
+  
   return (
     <>
       <form className="" onSubmit={handleSubmit}>

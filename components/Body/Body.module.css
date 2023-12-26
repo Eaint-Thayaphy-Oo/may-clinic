@@ -24,25 +24,6 @@
   margin-bottom: 20px;
 }
 
-.input {
-  width: 250px;
-  height: 30px;
-  border-radius: 10px;
-  padding: 5px;
-  color: rgba(68, 68, 68, 0.5);
-  border: 1px solid rgba(68, 68, 68, 0.5);
-  font-style: Poppins;
-  font-size: 14px;
-  font-weight: regular;
-}
-
-.icon {
-  position: absolute;
-  inset: 75px;
-  color: #54bab9;
-  margin-left: 160px;
-}
-
 .select {
   margin-top: 10px;
 }

@@ -20,10 +20,10 @@ export interface DataType {
   city?: string;
 }
 
-export default function List() {
+export default function List({datashow}) {
+  // console.log(datashow);
   const [data, setData] = useState(null);
   const [editModal, setEditModal] = useState(false);
-  // const [selectedId, setSelectedId] = useState<number>();
   const [selectedData, setSelectedData] = useState<DataType>();
   const [showDropDown, setShowDropDown] = useState();
 
@@ -85,8 +85,8 @@ export default function List() {
           </tr>
         </thead>
         <tbody className={styles.bodytable}>
-          {data &&
-            data.map((item) => (
+          {datashow &&
+            datashow.map((item) => (
               <tr key={item.id}>
                 <td>
                   <input id="" type="checkbox" />

@@ -1,18 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Body.module.css";
 import { CiSearch } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
 import Create from "../Create/Create";
 import List from "../List/List";
+import SearchBar from "../Search/SearchBar";
 
 export default function Body() {
   const [show, setShow] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState(
     "rgba(255, 255, 255,1)"
   );
-  const [search, setSearch] = useState("");
+
+  const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+
+  //for status and breed
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [breedFilter, setBreedFilter] = useState("all");
+
+  const updateSearchResults = () => {
+    const filteredPets = items.filter((item) => {
+      return (
+        (statusFilter === "all" || item.status === statusFilter) &&
+        (breedFilter === "all" || item.breed === breedFilter)
+      );
+    });
+
+    return filteredPets;
+  };
 
   const handleButtonClick = () => {
     setShow(true);
@@ -20,16 +38,20 @@ export default function Body() {
     setBackgroundColor("rgba(255, 255, 255,0.5)");
   };
 
-  let handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
+  useEffect(() => {
+    fetch("http://localhost:8000/items")
+      .then((response) => response.json())
+      .then((data) => {
+        setItems(data);
+        setFilteredItems(data);
+      });
+  }, []);
 
-  let handleSubmit = () => {
-    if (search !== "") {
-      fetch(`http://localhost:8000/items?search=${search}`)
-        .then((res) => res.json())
-        .then((res) => console.log(res));
-    }
+  const handleSearch = (query) => {
+    const filtered = items.filter((item) =>
+      item.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredItems(filtered);
   };
 
   return (
@@ -39,28 +61,47 @@ export default function Body() {
           <div className={styles.firstblock}>
             <div>
               <h2 className={styles.header}>Patient List</h2>
-              <input
-                type="text"
-                placeholder="Search table"
-                className={styles.input}
-                value={search}
-                onChange={(e) => handleSearch(e)}
-              />
-              <CiSearch className={styles.icon} onClick={() => handleSubmit()} />
+              <SearchBar onSearch={handleSearch} />
             </div>
             <div className={styles.select}>
-              <select className={styles.selectone}>
+              <select
+                className={styles.selectone}
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
                 <option value="">Status All</option>
                 <option value="allergy">allergy</option>
                 <option value="picky">picky eater</option>
               </select>
-              <select className={styles.selecttwo}>
+              <select
+                className={styles.selecttwo}
+                value={breedFilter}
+                onChange={(e) => setBreedFilter(e.target.value)}
+              >
                 <option value="">Breed All</option>
                 <option value="beagle">Beagle</option>
                 <option value="spaniel">Spaniel</option>
                 <option value="golden">Golden Retriever</option>
               </select>
             </div>
+          </div>
+          <div>
+            {/* {updateSearchResults().length === 0 ? (
+              <p>No results found.</p>
+            ) : (
+              updateSearchResults().map((pet, index) => (
+                <p key={index}>
+                  {pet.name} - Status: {pet.status}, Breed: {pet.breed}
+                </p>
+              ))
+            )} */}
+            {
+              updateSearchResults().map((pet, index) => (
+                <p key={index}>
+                  {pet.name} - Status: {pet.status}, Breed: {pet.breed}
+                </p>
+              ))
+            }
           </div>
           <div className={styles.secondblock}>
             <button
@@ -81,7 +122,7 @@ export default function Body() {
             </h4>
           </div>
         </div>
-        <List />
+        <List datashow={filteredItems} />
         {show && <Create />}
       </div>
     </>
