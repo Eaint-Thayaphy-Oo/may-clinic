@@ -1,0 +1,91 @@
+.modalblock {
+  width: 700px;
+  background-color: #fff;
+  position: absolute;
+  margin-left: 300px;
+  border-radius: 20px;
+  top: 150px;
+}
+
+.blockone {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 50px;
+}
+
+.text {
+  text-align: center;
+  font-style: Poppins;
+  font-size: 18px;
+  font-weight: medium;
+  color: #54bab9;
+  margin-bottom: 10px;
+}
+
+.textone {
+  font-style: Poppins;
+  font-size: 12px;
+  font-weight: regular;
+  color: #444444;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.inputone {
+  width: 250px;
+  height: 30px;
+  margin: 8px 0;
+  display: inline-block;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.selectfour {
+  width: 250px;
+  height: 30px;
+}
+
+.gender {
+  margin-top: 20px;
+}
+
+.female {
+  margin-left: 50px;
+}
+
+.blockthree {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.label {
+  font-style: Poppins;
+  font-size: 12px;
+  font-weight: regular;
+  color: #444444;
+}
+
+.savebtn,
+.cancelbtn {
+  width: 100px;
+  height: 30px;
+  font-style: Poppins;
+  font-size: 14px;
+  font-weight: regular;
+}
+
+.buttontype {
+  margin-left: 250px;
+}
+
+.savebtn {
+  color: #fff;
+  background-color: #54bab9;
+  border: 1px solid #54bab9;
+}
+
+.cancelbtn {
+  margin-left: 30px;
+  color: #000000;
+}
