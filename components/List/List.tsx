@@ -20,8 +20,8 @@ export interface DataType {
   city?: string;
 }
 
-export default function List({datashow}) {
-  // console.log(datashow);
+export default function List({ datashow, searchByFilter }) {
+  // console.log(searchByFilter);
   const [data, setData] = useState(null);
   const [editModal, setEditModal] = useState(false);
   const [selectedData, setSelectedData] = useState<DataType>();
@@ -47,6 +47,33 @@ export default function List({datashow}) {
         console.log(err.message);
       });
   }, []);
+
+  useEffect(() => {
+    console.log("datashow:", datashow);
+    console.log("searchByFilter:", searchByFilter);
+    if (datashow) {
+      setData(datashow);
+    } else if (searchByFilter) {
+      setData(searchByFilter);
+    }
+  }, [datashow, searchByFilter]);
+
+  // useEffect(() => {
+  //   console.log("datashow:", datashow);
+  //   console.log("searchByFilter:", searchByFilter);
+
+  //   switch (true) {
+  //     case datashow !== null:
+  //       setData(datashow);
+  //       break;
+  //     case searchByFilter !== null:
+  //       setData(searchByFilter);
+  //       break;
+  //     default:
+  //       console.log("Default case");
+  //       break;
+  //   }
+  // }, [datashow, searchByFilter]);
 
   const Removefunction = (id) => {
     // console.log(id);
@@ -85,8 +112,8 @@ export default function List({datashow}) {
           </tr>
         </thead>
         <tbody className={styles.bodytable}>
-          {datashow &&
-            datashow.map((item) => (
+          {data &&
+            data.map((item) => (
               <tr key={item.id}>
                 <td>
                   <input id="" type="checkbox" />
