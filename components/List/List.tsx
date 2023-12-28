@@ -48,12 +48,12 @@ export default function List({ datashow, searchByFilter }) {
   }, []);
 
   useEffect(() => {
-    console.log("datashow:", datashow);
-    console.log("searchByFilter:", searchByFilter);
     if (datashow) {
       setData(datashow);
     } else if (searchByFilter) {
       setData(searchByFilter);
+    } else {
+      setData([]);
     }
   }, [datashow, searchByFilter]);
 

@@ -1,56 +1,87 @@
 import React, { useState, useEffect } from "react";
-import styles from "./Edit.module.css"
+import styles from "./Edit.module.css";
 
 export default function Edit({ item }) {
-  const [id, setId] = useState(item.id);
-  const [name, setName] = useState(item.name);
-  const [pawrent, setPawrent] = useState(item.pawrent);
-  const [gender, setGender] = useState(item.gender);
-  const [phone, setPhone] = useState(item.phone);
-  const [city, setCity] = useState(item.city);
-  const [status, setStatus] = useState(item.status);
-  const [breed, setBreed] = useState(item.breed);
-  const [birth, setBirth] = useState(item.birth);
-  const [address, setAddress] = useState(item.address);
-  const [township, setTownship] = useState(item.township);
+  const [originalValues, setOriginalValues] = useState({}); // State to store original values
+  const [editedValues, setEditedValues] = useState({
+    id: item.id,
+    name: item.name,
+    pawrent: item.pawrent,
+    gender: item.gender,
+    phone: item.phone,
+    city: item.city,
+    status: item.status,
+    breed: item.breed,
+    birth: item.birth,
+    address: item.address,
+    township: item.township,
+  });
 
   useEffect(() => {
-    fetch(`http://localhost:8000/items/`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((resp) => {
-        setId(resp.id);
-        setName(resp.name);
-        setPawrent(resp.pawrent);
-        setGender(resp.gender);
-        setPhone(resp.phone);
-        setCity(resp.city);
-        setStatus(resp.status);
-        setBreed(resp.breed);
-        setBirth(resp.birth);
-        setAddress(resp.address);
-        setTownship(resp.township);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    setOriginalValues({
+      id: item.id,
+      name: item.name,
+      pawrent: item.pawrent,
+      gender: item.gender,
+      phone: item.phone,
+      city: item.city,
+      status: item.status,
+      breed: item.breed,
+      birth: item.birth,
+      address: item.address,
+      township: item.township,
+    });
   }, [item]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
 
   const handlesubmit = (e) => {
     e.preventDefault();
+
+    if (
+      !editedValues.name ||
+      !editedValues.pawrent ||
+      !editedValues.gender ||
+      !editedValues.phone ||
+      !editedValues.city ||
+      !editedValues.status ||
+      !editedValues.breed ||
+      !editedValues.birth ||
+      !editedValues.address ||
+      !editedValues.township
+    ) {
+      alert("Please fill in all the required fields");
+      return;
+    }
+
+    const hasChanges = Object.keys(originalValues).some(
+      (key) => originalValues[key] !== editedValues[key]
+    );
+
+    if (!hasChanges) {
+      alert("No changes made. Update a field to save changes.");
+      window.location.reload();
+      return;
+    }
+
     const data = {
-      id,
-      name,
-      pawrent,
-      gender,
-      phone,
-      city,
-      status,
-      breed,
-      birth,
-      address,
-      township,
+      id: editedValues.id,
+      name: editedValues.name,
+      pawrent: editedValues.pawrent,
+      gender: editedValues.gender,
+      phone: editedValues.phone,
+      city: editedValues.city,
+      status: editedValues.status,
+      breed: editedValues.breed,
+      birth: editedValues.birth,
+      address: editedValues.address,
+      township: editedValues.township,
     };
 
     fetch("http://localhost:8000/items/" + item.id, {
@@ -60,6 +91,7 @@ export default function Edit({ item }) {
     })
       .then((res) => {
         alert("Saved successfully.");
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err.message);
@@ -79,13 +111,13 @@ export default function Edit({ item }) {
               <div className={styles.blocktwo}>
                 <div className={styles.inputone}>
                   <label className={styles.label}>Pet Name</label>
-                  <input type="hidden" value={id}></input>
+                  {/* <input type="hidden" value={id}></input> */}
                   <input
                     type="text"
                     name="name"
                     className={styles.inputone}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={editedValues.name}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className={styles.inputone}>
@@ -95,8 +127,8 @@ export default function Edit({ item }) {
                     name="pawrent"
                     className={styles.inputone}
                     placeholder=""
-                    value={pawrent}
-                    onChange={(e) => setPawrent(e.target.value)}
+                    value={editedValues.pawrent}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className={styles.gender}>
@@ -106,9 +138,9 @@ export default function Edit({ item }) {
                       <input
                         type="radio"
                         name="gender"
-                        value={gender}
-                        checked={gender}
-                        onChange={(e) => setGender(e.target.value)}
+                        checked={editedValues.gender}
+                        value={editedValues.gender}
+                        onChange={handleInputChange}
                       />
                       Male
                     </label>
@@ -116,10 +148,9 @@ export default function Edit({ item }) {
                       <input
                         type="radio"
                         name="gender"
-                        value={gender}
-                        checked={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                        className={styles.female}
+                        checked={editedValues.gender}
+                        value={editedValues.gender}
+                        onChange={handleInputChange}
                       />
                       Female
                     </label>
@@ -131,8 +162,8 @@ export default function Edit({ item }) {
                     type="text"
                     name="phone"
                     className={styles.inputone}
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    value={editedValues.phone}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className={styles.inputone}>
@@ -140,8 +171,8 @@ export default function Edit({ item }) {
                   <select
                     name="city"
                     className={styles.selectfour}
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    value={editedValues.city}
+                    onChange={handleInputChange}
                   >
                     <option value="">please choose city</option>
                     <option value="yangon">Yangon</option>
@@ -156,8 +187,8 @@ export default function Edit({ item }) {
                   <select
                     name="status"
                     className={styles.selectfour}
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    value={editedValues.status}
+                    onChange={handleInputChange}
                   >
                     <option>please choose status</option>
                     <option value="allergy">Allergy</option>
@@ -169,8 +200,8 @@ export default function Edit({ item }) {
                   <select
                     name="breed"
                     className={styles.selectfour}
-                    value={breed}
-                    onChange={(e) => setBreed(e.target.value)}
+                    value={editedValues.breed}
+                    onChange={handleInputChange}
                   >
                     <option value="">Breed All</option>
                     <option value="beagle">Beagle</option>
@@ -186,8 +217,8 @@ export default function Edit({ item }) {
                     name="birth"
                     type="date"
                     placeholder=""
-                    value={birth}
-                    onChange={(e) => setBirth(e.target.value)}
+                    value={editedValues.birth}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="">
@@ -197,8 +228,8 @@ export default function Edit({ item }) {
                     name="address"
                     className={styles.inputone}
                     placeholder=""
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    value={editedValues.address}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="">
@@ -206,8 +237,8 @@ export default function Edit({ item }) {
                   <select
                     name="township"
                     className={styles.selectfour}
-                    value={township}
-                    onChange={(e) => setTownship(e.target.value)}
+                    value={editedValues.township}
+                    onChange={handleInputChange}
                   >
                     <option value="city">please choose city</option>
                     <option value="yangon">Yangon</option>
