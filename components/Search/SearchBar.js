@@ -1,4 +1,3 @@
-// components/SearchBar.js
 import { useState } from "react";
 import styles from "./SearchBar.module.css";
 import { CiSearch } from "react-icons/ci";

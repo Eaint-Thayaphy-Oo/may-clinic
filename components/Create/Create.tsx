@@ -12,9 +12,29 @@ export default function Create() {
   const [birth, setBirth] = useState("");
   const [address, setAddress] = useState("");
   const [township, setTownship] = useState("");
-  
+
+  // Validation states
+  const [nameError, setNameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Basic required field validation
+    if (!name) {
+      setNameError("Pet Name is required");
+      return;
+    }
+
+    if (!phone) {
+      setPhoneError("Contact Phone No. is required");
+      return;
+    }
+
+    // Clear validation errors if fields are valid
+    setNameError("");
+    setPhoneError("");
+
     const data = {
       name,
       pawrent,
@@ -41,7 +61,7 @@ export default function Create() {
         console.log(err.message);
       });
   };
-  
+
   return (
     <>
       <form className="" onSubmit={handleSubmit}>
@@ -60,8 +80,12 @@ export default function Create() {
                     name="name"
                     className={styles.inputone}
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      setNameError(""); // Clear error when the user types
+                    }}
                   />
+                  {nameError && <div className={styles.error}>{nameError}</div>}
                 </div>
                 <div className={styles.inputone}>
                   <label className={styles.label}>Pawrent</label>
@@ -103,8 +127,14 @@ export default function Create() {
                     name="phone"
                     className={styles.inputone}
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                      setPhoneError(""); // Clear error when the user types
+                    }}
                   />
+                  {phoneError && (
+                    <div className={styles.error}>{phoneError}</div>
+                  )}
                 </div>
                 <div className={styles.inputone}>
                   <label className={styles.label}>City</label>

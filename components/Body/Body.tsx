@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "./Body.module.css";
-import { CiSearch } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
 import Create from "../Create/Create";
 import List from "../List/List";
@@ -61,9 +60,33 @@ export default function Body() {
       });
   }, []);
 
+  // const handleSearch = (query) => {
+  //   const filtered = items.filter(
+  //     (item) =>
+  //       (item.name && item.name.toLowerCase().includes(query.toLowerCase())) ||
+  //       (item.pawrent &&
+  //         item.pawrent.toLowerCase().includes(query.toLowerCase()))||
+  //       (item.address &&
+  //         item.address.toLowerCase().includes(query.toLowerCase()))
+  //   );
+  //   setFilteredItems(filtered);
+  // };
+
   const handleSearch = (query) => {
+    const searchFields = [
+      "name",
+      "pawrent",
+      "gender",
+      "birth",
+      "phone",
+      "address",
+      "township",
+    ];
     const filtered = items.filter((item) =>
-      item.name.toLowerCase().includes(query.toLowerCase())
+      searchFields.some(
+        (field) =>
+          item[field] && item[field].toLowerCase().includes(query.toLowerCase())
+      )
     );
     setFilteredItems(filtered);
   };

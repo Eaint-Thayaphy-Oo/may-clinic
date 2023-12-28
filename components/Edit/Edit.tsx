@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styles from "./Edit.module.css"
 
 export default function Edit({ item }) {
-  // console.log(item);
   const [id, setId] = useState(item.id);
   const [name, setName] = useState(item.name);
   const [pawrent, setPawrent] = useState(item.pawrent);

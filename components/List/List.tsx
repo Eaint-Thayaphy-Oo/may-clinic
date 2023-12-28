@@ -21,7 +21,6 @@ export interface DataType {
 }
 
 export default function List({ datashow, searchByFilter }) {
-  // console.log(searchByFilter);
   const [data, setData] = useState(null);
   const [editModal, setEditModal] = useState(false);
   const [selectedData, setSelectedData] = useState<DataType>();
